@@ -1,5 +1,0 @@
-[
-  { "isEnter": [boolean], "time": [integer], "id": [integer], "isApproved": [boolean] },
-  { "isEnter": [boolean], "time": [integer], "id": [integer], "isApproved": [boolean] },
-  { "isEnter": [boolean], "time": [integer], "id": [integer], "isApproved": [boolean] }
-]
