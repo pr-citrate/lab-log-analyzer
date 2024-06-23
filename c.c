@@ -1,10 +1,12 @@
 #include <stdbool.h>
 #include <stdio.h>
+#define STUDENTS 100
 
 int main() {
   int n, cnt = 0;
-  bool student[20] = {false};
-  bool problem[20] = {false};
+  bool student[STUDENTS + 1] = {
+      false};  // 학생 ID는 1부터 20까지이므로 크기를 21로 설정
+  bool problem[STUDENTS + 1] = {false};
   int startTime = 0, endTime = 0;
 
   scanf("%d", &n);
@@ -49,7 +51,7 @@ int main() {
 
         // print problematic students
         bool first = true;
-        for (int j = 0; j < 20; j++) {
+        for (int j = 1; j <= STUDENTS; j++) {
           if (problem[j]) {
             if (!first) {
               printf(",");
@@ -61,7 +63,7 @@ int main() {
         printf("\n");
 
         // reset problem array
-        for (int j = 0; j < 20; j++) {
+        for (int j = 1; j <= STUDENTS; j++) {
           problem[j] = student[j];
         }
         startTime = 0;

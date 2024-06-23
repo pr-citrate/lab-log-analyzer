@@ -24,6 +24,9 @@ result_files = [
 # C 프로그램 실행 파일 경로
 c_program = f"{project_folder}/c.exe"
 
+# 출력 결과를 repr로 출력할지 여부
+USE_REPR = False
+
 
 def run_test(test_file, result_file):
     # 테스트 케이스 파일 읽기
@@ -38,23 +41,34 @@ def run_test(test_file, result_file):
     process = subprocess.Popen(
         c_program, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
-    stdout, stderr = process.communicate(input=test_input.encode())
+    stdout, error = process.communicate(input=test_input.encode())
 
     # 프로그램 출력
-    output = stdout.decode().strip()
+    output = stdout.decode().strip().replace("\r", "")
+    error = error.decode().strip()
+
+    # 출력 결과 지정
+    if USE_REPR:
+        print(repr(output))
+        print(repr(expected_output))
 
     # 결과 비교
+    test_file = test_file.split(".")[0]
     if output == expected_output:
         print(f"\033[32m{test_file} PASSED\033[39m")
         print()
         return True
     else:
         print(f"\033[31m{test_file} FAILED\033[39m")
-        print("\033[33mExpected:\033[39m")
-        print(expected_output)
-        print("\033[33mGot:\033[39m")
-        print(output)
-        print()
+        if error:
+            print("\033[31mError:\033[39m")
+            print(error)
+        else:
+            print("\033[33mExpected:\033[39m")
+            print(expected_output)
+            print("\033[33mGot:\033[39m")
+            print(output)
+            print()
         return False
 
 
